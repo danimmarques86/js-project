@@ -1,3 +1,8 @@
+// Variables
+var input = document.getElementById("input-change");
+var tableCellDisplay = document.getElementById("tableCellID");
+var lastSelectedCell;
+
 // function to load table on onload event
 function loadTable(){
     document.getElementById("SpreadsheetTable").innerHTML = createTable();
@@ -40,11 +45,41 @@ function createTable() {
     return divHTML;
 }
 
-
 // event handler fires when user clicks a cell
 function clickCell(ref) {
-    var rcArray = ref.id.split('_');
-    alert("You selected row " + rcArray[0] + " and column " + rcArray[1]);
+    // Check if the selected cell changed
+    if (lastSelectedCell) {
+        //remove cellSelected class of the last selected cell...
+        let element = document.getElementById(lastSelectedCell);
+        element.classList.remove("cellSelected");
+        // Assign new name to the cell
+        element.className = "cell";
+    }
+
+    //1_1
+    // let rcArray = ref.id.split('_'); //[1,1]
+
+    tableCellDisplay.innerHTML = ref.id // TODO---> converter coluna pra Alfabeto
+    ref.className = "cellSelected";
+    
+    // If there is no value on the cell clean the input value
+    if (document.getElementById(tableCellDisplay.textContent).textContent === "") {
+        input.value = "";
+    }
+    else {
+        // If there is a value in the cell display the value in the input
+        input.value = document.getElementById(tableCellDisplay.textContent).textContent;
+    }
+    // Assign this as the last selected cell
+    lastSelectedCell = tableCellDisplay.textContent;
+
+    // focus and able on input
+    input.disabled = false;
+    input.focus();
+}   
+
+function inputValueToCell() {
+    document.getElementById(tableCellDisplay.textContent).innerHTML = input.value;
 }
 
 

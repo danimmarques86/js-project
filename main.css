@@ -1,0 +1,11 @@
+.cellSelected {
+    border: 2px solid #17a2b8!important
+}   
+
+#input-change {
+    border-radius: 5px;
+}
+
+#tableCellID {
+    border-radius: 5px;
+}
