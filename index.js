@@ -1,6 +1,7 @@
 // Variables
 var input = document.getElementById("input-change");
 var tableCellDisplay = document.getElementById("tableCellID");
+var btnClear = document.getElementById('btn-clear');
 var lastSelectedCell;
 
 // function to load table on onload event
@@ -11,7 +12,7 @@ function loadTable(){
 // function create table
 function createTable() {
     // start with the table declaration
-    var divHTML = "<table border='1' cellpadding='0' cellspacing='0' class='table table-striped table-hover'>";
+    var divHTML = "<table id='tblCreated' border='1' cellpadding='0' cellspacing='0' class='table table-striped table-hover'>";
 
     // create column header
     divHTML += "<tr><th></th>";
@@ -82,6 +83,10 @@ function inputValueToCell() {
     document.getElementById(tableCellDisplay.textContent).innerHTML = input.value;
 }
 
+var tabela = document.getElementById('SpreadsheetTable');
 
-
+btnClear.addEventListener('click', function (e) {	
+    document.getElementById(tableCellDisplay.textContent).innerHTML = " ";
+    input.value = " ";
+});
 
