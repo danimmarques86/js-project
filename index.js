@@ -2,6 +2,7 @@
 var input = document.getElementById("input-change");
 var tableCellDisplay = document.getElementById("tableCellID");
 var btnClear = document.getElementById('btn-clear');
+var btnClearCell = document.getElementById('btn-clear-cell');
 var lastSelectedCell;
 
 // function to load table on onload event
@@ -85,8 +86,21 @@ function inputValueToCell() {
 
 var tabela = document.getElementById('SpreadsheetTable');
 
-btnClear.addEventListener('click', function (e) {	
+// Clear Selected Cell
+btnClearCell.addEventListener('click', function (e) {	
     document.getElementById(tableCellDisplay.textContent).innerHTML = " ";
     input.value = " ";
+
+});
+
+// Clear All Cells
+btnClear.addEventListener('click', function (e) {	
+    document.getElementById(tableCellDisplay.textContent).innerHTML = " ";
+    let clearAllCells = document.getElementsByClassName('cell');
+    Array.prototype.forEach.call(clearAllCells, function(el){
+        el.innerHTML = '';
+    });
+    input.value = " ";
+
 });
 
