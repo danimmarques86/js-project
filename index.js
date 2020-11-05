@@ -99,7 +99,10 @@ function clickCell(ref) {
     }
     else {
         // If there is a value in the cell display the value in the input
-        input.value = document.getElementById(tableCellDisplay.textContent).textContent;
+        var rcArray = ref.id.split('_');
+        selectedRow = rcArray[0];
+        selectedColumn = rcArray[1];
+        input.value = tblArray[selectedRow - 1][selectedColumn - 1];
     }
     // Assign this as the last selected cell
     lastSelectedCell = tableCellDisplay.textContent;
@@ -108,7 +111,6 @@ function clickCell(ref) {
     var rcArray = ref.id.split('_');
     selectedRow = rcArray[0];
     selectedColumn = rcArray[1];
-    tblArray[selectedRow - 1][selectedColumn - 1] = document.getElementById("input-change").value;
 
     // focus and able on input
     input.disabled = false;
