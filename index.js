@@ -105,9 +105,10 @@ function clickCell(ref) {
     lastSelectedCell = tableCellDisplay.textContent;
 
     // Assign the value on table array
-    var rcArray = ref.id.split('_');    
+    var rcArray = ref.id.split('_');
     selectedRow = rcArray[0];
     selectedColumn = rcArray[1];
+    tblArray[selectedRow - 1][selectedColumn - 1] = document.getElementById("input-change").value;
 
     // focus and able on input
     input.disabled = false;
@@ -117,24 +118,16 @@ function clickCell(ref) {
     document.getElementById("btn-clear-cell").disabled = false;
 }
 
-function inputValueToCell(ref) {
+function inputValueToCell() {
     document.getElementById(tableCellDisplay.textContent).innerHTML = input.value;
 
-    if (window.event.keyCode === 13) {
-        var rcArray = ref.id.split('_');
-        // console.log(rcArray);   
-        
-        selectedRow = rcArray[0];
-        selectedColumn = rcArray[1];
+    // Assign the value to the table array
+    tblArray[selectedRow - 1][selectedColumn - 1] = (document.getElementById("input-change").value).toUpperCase();
 
-        // add the index into array
-        tblArray[selectedRow - 1][selectedColumn - 1] =  document.getElementById("input-change").value;
+    // call function to calculate the formula
+    calculateCell(selectedRow - 1, selectedColumn - 1);
 
-        // call function to calculate the formula
-        calculateCell(selectedRow - 1, selectedColumn - 1);
-
-        recalculate();
-    } 
+    recalculate();
 }
 
 // Clear Selected Cell
@@ -162,8 +155,8 @@ btnClear.addEventListener('click', function (e) {
 // and then recalculate cell values
 // tblArray is the 2d JS array
 function recalculate() {
-    for (var i = 0; i < TBLROWS; i++) {
-        for (var j = 0; j < TBLCOLUMNS; j++) {
+    for (var i = 0; i < tableRow; i++) {
+        for (var j = 0; j < tableCol; j++) {
             // check to see if table element is a formula
             if (tblArray[i][j].indexOf("=SUM") !== -1) {
                 // apply the formula for cell at row/column i/j
