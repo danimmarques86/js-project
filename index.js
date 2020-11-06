@@ -94,16 +94,20 @@ function clickCell(ref) {
     ref.className = "cellSelected";
 
     // If there is no value on the cell clean the input value
-    if (document.getElementById(tableCellDisplay.textContent).textContent === "") {
-        input.value = "";
+    // if (document.getElementById(tableCellDisplay.textContent).textContent === "") {
+    //     input.value = "";
+    // }
+    // else {
+    // If there is a value in the cell display the value in the input
+    var rcArray = ref.id.split('_');
+    selectedRow = rcArray[0];
+    selectedColumn = rcArray[1];
+    input.value = tblArray[selectedRow - 1][selectedColumn - 1];
+    // If it is not a formula display the the value on the cell
+    if (!input.value.startsWith("=SUM")) {
+        document.getElementById(tableCellDisplay.textContent).innerHTML = input.value;
     }
-    else {
-        // If there is a value in the cell display the value in the input
-        var rcArray = ref.id.split('_');
-        selectedRow = rcArray[0];
-        selectedColumn = rcArray[1];
-        input.value = tblArray[selectedRow - 1][selectedColumn - 1];
-    }
+    // }
     // Assign this as the last selected cell
     lastSelectedCell = tableCellDisplay.textContent;
 
@@ -136,7 +140,8 @@ function inputValueToCell() {
 btnClearCell.addEventListener('click', function (e) {
     document.getElementById(tableCellDisplay.textContent).innerHTML = "";
     input.value = "";
-
+    tblArray[selectedRow - 1][selectedColumn - 1] = "";
+    inputValueToCell();
 });
 
 // Clear All Cells
@@ -148,6 +153,19 @@ btnClear.addEventListener('click', function (e) {
     });
     input.value = "";
 
+    // Clear the table array
+    // Creating a JavaScript 2d array
+    tblArray = [];
+    var tableRow = 20;
+    var tableCol = 10;
+
+    // Loop in order to store the row and col position in the table array
+    for (var i = 0; i < tableRow; i++) {
+        tblArray[i] = [];
+        for (var j = 0; j < tableCol; j++) {
+            tblArray[i][j] = "";
+        }
+    }
 });
 
 /* MATH PART */
@@ -200,8 +218,17 @@ function calculateCell(row, column) {
         for (var i = fromRowIndex; i <= toRowIndex; i++) {
             for (var j = fromColIndex; j <= toColIndex; j++) {
                 // make sure we have a number for addition
-                if (isFloat(tblArray[i][j]))
+                // Assume value 0 if there is no information on this cell
+                if (!tblArray[i][j]) {
+                    tblArray[i][j] = "0";
+                }
+                if (tblArray[i][j].startsWith("=")) {
+                    let cell = document.getElementById(Number(i + 1) + "_" + Number(j + 1));
+                    sumTotal += parseFloat(cell.textContent);
+                }
+                if (isFloat(tblArray[i][j])) {
                     sumTotal += parseFloat(tblArray[i][j]);
+                }
             }
         }
 
@@ -223,8 +250,9 @@ function isFloat(s) {
     for (var i = 0; i < s.length; i++) {
         ch = s.substr(i, 1);
 
-        if (justFloat.indexOf(ch) == -1)
+        if (justFloat.indexOf(ch) == -1) {
             return false;
+        }
     }
     return true;
 }
