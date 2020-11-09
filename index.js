@@ -1,3 +1,7 @@
+/*  Project #1 – JavaScript Spreadsheet
+    Bruno Surdi de Oliveira
+    Daniele Matheus Marques */
+
 // Variables
 var input = document.getElementById("input-change");
 var tableCellDisplay = document.getElementById("tableCellID");
@@ -90,14 +94,9 @@ function clickCell(ref) {
         element.className = "cell";
     }
 
-    tableCellDisplay.innerHTML = ref.id // TODO---> converter coluna pra Alfabeto
+    tableCellDisplay.innerHTML = ref.id
     ref.className = "cellSelected";
 
-    // If there is no value on the cell clean the input value
-    // if (document.getElementById(tableCellDisplay.textContent).textContent === "") {
-    //     input.value = "";
-    // }
-    // else {
     // If there is a value in the cell display the value in the input
     var rcArray = ref.id.split('_');
     selectedRow = rcArray[0];
@@ -107,7 +106,7 @@ function clickCell(ref) {
     if (!input.value.startsWith("=SUM")) {
         document.getElementById(tableCellDisplay.textContent).innerHTML = input.value;
     }
-    // }
+    
     // Assign this as the last selected cell
     lastSelectedCell = tableCellDisplay.textContent;
 
